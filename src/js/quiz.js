@@ -42,7 +42,7 @@
     function calcWin() {
         x = (Math.floor(Math.random() * (110 - 90)) + 90) / 100;
         win = 0.05 * 1000 * x;
-        Math.round(win);
+        win = Math.round(win);
     }
 
     function calcLoss() {

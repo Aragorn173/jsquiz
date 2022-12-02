@@ -60,6 +60,14 @@ button:hover{
 
 .quiz-container {
 	position: relative;
-	height: 400px;
+	height: 150px;
 	margin-top: 40px;
+}
+
+#kanvinna {
+	height: 200px;
+}
+
+#score {
+	font-size: 35px;
 }

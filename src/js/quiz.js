@@ -4,6 +4,7 @@
     function buildQuiz() {
         score = 0;
         const output = [];
+        
         questions.forEach(
             (currentQuestion, questionNumber) => {
 
@@ -15,18 +16,32 @@
             }
         );
         quizContainer.innerHTML = output.join('');
+        showfråga();
+        calcWin();
+        calcLoss(); 
         kanvinna();
+        anta();
         showScore();
     }
 
     function kanvinna(){
         let kanvinnaDiv = document.getElementById('kanvinna');
-        kanvinnaDiv.textContent = 'vid vinst:' + loss + Array(25).fill('\xa0').join('') + 'vid förlust:' + win;
+        kanvinnaDiv.textContent = 'vid vinst: +' + loss + Array(25).fill('\xa0').join('') + 'vid förlust: -' + win;
     }
 
     function showScore() {
         let scoreDiv = document.getElementById('score');
         scoreDiv.textContent = 'Poäng:' + score;
+    }
+
+    function showfråga() {
+        let frågaDiv = document.getElementById('fråga');
+        frågaDiv.textContent = 'Fråga: ' + fråga + '/25';
+    }
+
+    function anta() {
+        let antaDiv = document.getElementById('anta');
+        antaDiv.textContent = 'Antar du vadet?';
     }
 
     function showSlide(n) {
@@ -35,33 +50,58 @@
         currentSlide = n;
         calcWin();
         calcLoss();
+        kanvinna();
+        anta();
+        showfråga();
+        i++;
+        fråga++;
         console.log(win);
         console.log(loss);
+        console.log(chancewin);
+        console.log(fråga);
+        end();
     }
 
     function calcWin() {
+        chancewin = questions[i].chanceWin
         x = (Math.floor(Math.random() * (110 - 90)) + 90) / 100;
-        win = 0.05 * 1000 * x;
+        win = chancewin * 1000 * x;
         win = Math.round(win);
     }
 
     function calcLoss() {
         loss = 1000 - win;
     }
+    
+    function takeChance() {
+        y = Math.random();
+        if (y < chancewin) {
+            score += loss;
+        } else {
+            score -=win;
+        }
+    }
 
     function answerNo() {
         showScore();
         showSlide(currentSlide + 1);
-        kanvinna();
     }
 
     function answerYes() {
-        score += win;
+        takeChance();
         showScore();
-        console.log(win);
-        console.log(loss);
         showSlide(currentSlide + 1);
-        kanvinna();
+    }
+
+    function end() {
+        if (fråga > 26) {
+            yesButton.style.display = 'none';
+            noButton.style.display = 'none';
+            this.kanvinna.style.display = 'none';
+            this.anta.style.display = 'none';
+            endDiv = document.getElementById('end');
+            endDiv.textContent = 'Tack för att du spelade!';
+        }
     }
 
 
@@ -69,13 +109,16 @@
     const quizContainer = document.getElementById('quiz');
     let win = 0;
     let loss = 0;
-    let chanceWin;
+    let i = 0;
+    let chancewin = 0;
     let x = 0;
+    let y = 0;
     let score = 0;
+    let fråga = 1;
 
-    let questions = [
+    const questions = [
         {
-            question: "Det finns en 95 % chans att du vinner.",
+            question: "Det finns en 87 % chans att du vinner.",
             chanceWin: 0.87
         },
         {
@@ -130,7 +173,54 @@
             question: "Det finns en 33 % chans att du vinner.",
             chanceWin: 0.33
         },
-
+        {
+            question: "Det finns en 23 % chans att du vinner.",
+            chanceWin: 0.23
+        },
+        {
+            question: "Det finns en 76 % chans att du vinner.",
+            chanceWin: 0.76
+        },
+        {
+            question: "Det finns en 30 % chans att du vinner.",
+            chanceWin: 0.30
+        },
+        {
+            question: "Det finns en 10 % chans att du vinner.",
+            chanceWin: 0.10
+        },
+        {
+            question: "Det finns en 41 % chans att du vinner.",
+            chanceWin: 0.41
+        },
+        {
+            question: "Det finns en 37 % chans att du vinner.",
+            chanceWin: 0.37
+        },
+        {
+            question: "Det finns en 77 % chans att du vinner.",
+            chanceWin: 0.77
+        },
+        {
+            question: "Det finns en 14 % chans att du vinner.",
+            chanceWin: 0.14
+        },
+        {
+            question: "Det finns en 61 % chans att du vinner.",
+            chanceWin: 0.61
+        },
+        {
+            question: "Det finns en 51 % chans att du vinner.",
+            chanceWin: 0.51
+        },
+        {
+            question: "Det finns en 18 % chans att du vinner.",
+            chanceWin: 0.18
+        },
+        {
+            question: "",
+            chanceWin: 0
+        }
     ];
 
 

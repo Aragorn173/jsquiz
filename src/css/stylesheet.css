@@ -6,7 +6,7 @@ body{
 	text-align: center;
 	background-color: #f8f6f0;
 }
-h1 {
+#fråga {
 	font-weight: 300;
 	margin: 0px;
 	padding: 10px;
@@ -69,5 +69,6 @@ button:hover{
 }
 
 #score {
+	margin-top: 1rem;
 	font-size: 35px;
 }

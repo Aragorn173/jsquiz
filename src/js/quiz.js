@@ -232,7 +232,6 @@
 
     showSlide(currentSlide);
 
-    // submitButton.addEventListener('click', showResults);
     yesButton.addEventListener('click', answerYes);
     noButton.addEventListener('click', answerNo);
 })();

@@ -1,3 +1,39 @@
+
+
+function sendResult(url) {
+    if (!url) return;
+    fetch(url, {
+        method: 'POST', // or 'PUT'
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(answerObject),
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log('Success!');
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+}
+
+
+let answerObject = {
+    frågor: {
+        poäng: [],
+        chanceWin: [],
+        answer: [],
+        statistisktRättSvar: [],
+        outcome: []
+    }
+};
+
+
+
+
+
+
 (function () {
     const yesButton = document.getElementById("yes");
     const noButton = document.getElementById("no");
@@ -55,11 +91,17 @@
         showfråga();
         i++;
         fråga++;
-        console.log(win);
-        console.log(loss);
-        console.log(chancewin);
-        console.log(fråga);
         end();
+        answerObject.frågor.poäng.push(score);
+        answerObject.frågor.chanceWin.push(chancewin);
+        if (x < 1) {
+            answerObject.frågor.statistisktRättSvar.push("yes");
+        } else if (x > 1) {
+            answerObject.frågor.statistisktRättSvar.push("no");
+        } else {
+            answerObject.frågor.statistisktRättSvar.push("maybe");
+        }
+        console.log(answerObject);
     }
 
     function calcWin() {
@@ -83,12 +125,22 @@
     }
 
     function answerNo() {
+        answerObject.frågor.answer.push("no");
+        answerObject.frågor.outcome.push("fegis");
+
         showScore();
         showSlide(currentSlide + 1);
+
     }
 
     function answerYes() {
+        answerObject.frågor.answer.push("yes");
         takeChance();
+        if (y < chancewin) {
+            answerObject.frågor.outcome.push("win");
+        } else {
+            answerObject.frågor.outcome.push("loss");
+        }
         showScore();
         showSlide(currentSlide + 1);
     }
@@ -101,6 +153,7 @@
             this.anta.style.display = 'none';
             endDiv = document.getElementById('end');
             endDiv.textContent = 'Tack för att du spelade!';
+            sendResult('https://foregoing-marble-marscapone.glitch.me/');
         }
     }
 

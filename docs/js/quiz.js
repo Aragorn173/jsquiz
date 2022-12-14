@@ -20,13 +20,13 @@ function sendResult(url) {
 
 
 let answerObject = {
-    frågor: {
-        poäng: [],
-        chanceWin: [],
-        answer: [],
-        statistisktRättSvar: [],
-        outcome: []
-    }
+
+    points: [],
+    chancewin: [],
+    answers: [],
+    correctanswers: [],
+    outcome: []
+
 };
 
 
@@ -40,7 +40,7 @@ let answerObject = {
     function buildQuiz() {
         score = 0;
         const output = [];
-        
+
         questions.forEach(
             (currentQuestion, questionNumber) => {
 
@@ -54,13 +54,13 @@ let answerObject = {
         quizContainer.innerHTML = output.join('');
         showfråga();
         calcWin();
-        calcLoss(); 
+        calcLoss();
         kanvinna();
         anta();
         showScore();
     }
 
-    function kanvinna(){
+    function kanvinna() {
         let kanvinnaDiv = document.getElementById('kanvinna');
         kanvinnaDiv.textContent = 'vid vinst: +' + loss + Array(25).fill('\xa0').join('') + 'vid förlust: -' + win;
     }
@@ -91,15 +91,16 @@ let answerObject = {
         showfråga();
         i++;
         fråga++;
+        answerObject.points.push(score);
         end();
-        answerObject.frågor.poäng.push(score);
-        answerObject.frågor.chanceWin.push(chancewin);
+
+        answerObject.chancewin.push(chancewin);
         if (x < 1) {
-            answerObject.frågor.statistisktRättSvar.push("yes");
+            answerObject.correctanswers.push(1);
         } else if (x > 1) {
-            answerObject.frågor.statistisktRättSvar.push("no");
+            answerObject.correctanswers.push(0);
         } else {
-            answerObject.frågor.statistisktRättSvar.push("maybe");
+            answerObject.correctanswers.push(2);
         }
         console.log(answerObject);
     }
@@ -114,19 +115,19 @@ let answerObject = {
     function calcLoss() {
         loss = 1000 - win;
     }
-    
+
     function takeChance() {
         y = Math.random();
         if (y < chancewin) {
             score += loss;
         } else {
-            score -=win;
+            score -= win;
         }
     }
 
     function answerNo() {
-        answerObject.frågor.answer.push("no");
-        answerObject.frågor.outcome.push("fegis");
+        answerObject.answers.push(0);
+        answerObject.outcome.push(2);
 
         showScore();
         showSlide(currentSlide + 1);
@@ -134,12 +135,12 @@ let answerObject = {
     }
 
     function answerYes() {
-        answerObject.frågor.answer.push("yes");
+        answerObject.answers.push(1);
         takeChance();
         if (y < chancewin) {
-            answerObject.frågor.outcome.push("win");
+            answerObject.outcome.push(1);
         } else {
-            answerObject.frågor.outcome.push("loss");
+            answerObject.outcome.push(0);
         }
         showScore();
         showSlide(currentSlide + 1);

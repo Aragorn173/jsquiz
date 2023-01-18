@@ -113,21 +113,14 @@ let answerObject = {
 
     function randomSlide() {
         currentSlide = Math.floor(Math.random() * questions.length);
-        
-        for(z = 0; z < doneQuestion.length; ) {
-            if (currentSlide == doneQuestion[z]) {
-                z++;
-            } else {
-                doneQuestion[z] = currentSlide;
-            }
-            
+
+        if (doneQuestion.includes(currentSlide) == true) {
+           console.log("true");
+        } else {
+            console.log("false");
+            doneQuestion.push(currentSlide);
         }
 
-        console.log(currentSlide);
-        console.log(questions[currentSlide]);
-        
-
-        return currentSlide;
     }
 
     function calcWin() {
@@ -299,7 +292,7 @@ let answerObject = {
             question: "Det finns en 18 % chans att du vinner.",
             chanceWin: 0.18
         },
-       
+
     ];
 
 

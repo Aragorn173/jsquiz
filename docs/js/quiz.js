@@ -52,6 +52,7 @@ let answerObject = {
             }
         );
         quizContainer.innerHTML = output.join('');
+        randomSlide();
         showfråga();
         calcWin();
         calcLoss();
@@ -81,14 +82,19 @@ let answerObject = {
     }
 
     function showSlide(n) {
-        slides[currentSlide].classList.remove('active-slide');
-        slides[n].classList.add('active-slide');
-        currentSlide = n;
+        slides[n].classList.remove('active-slide');
+
+        randomSlide();
+        //currentSlide = Math.floor(Math.random() * questions.length);
+        if (fråga < 26) {
+            slides[currentSlide].classList.add('active-slide');
+        }
         calcWin();
         calcLoss();
         kanvinna();
         anta();
         showfråga();
+
         i++;
         fråga++;
         answerObject.points.push(score);
@@ -105,8 +111,27 @@ let answerObject = {
         console.log(answerObject);
     }
 
+    function randomSlide() {
+        currentSlide = Math.floor(Math.random() * questions.length);
+        
+        for(z = 0; z < doneQuestion.length; ) {
+            if (currentSlide == doneQuestion[z]) {
+                z++;
+            } else {
+                doneQuestion[z] = currentSlide;
+            }
+            
+        }
+
+        console.log(currentSlide);
+        console.log(questions[currentSlide]);
+        
+
+        return currentSlide;
+    }
+
     function calcWin() {
-        chancewin = questions[i].chanceWin
+        chancewin = questions[currentSlide].chanceWin
         x = (Math.floor(Math.random() * (110 - 90)) + 90) / 100;
         win = chancewin * 1000 * x;
         win = Math.round(win);
@@ -130,7 +155,7 @@ let answerObject = {
         answerObject.outcome.push(2);
 
         showScore();
-        showSlide(currentSlide + 1);
+        showSlide(currentSlide);
 
     }
 
@@ -143,7 +168,7 @@ let answerObject = {
             answerObject.outcome.push(0);
         }
         showScore();
-        showSlide(currentSlide + 1);
+        showSlide(currentSlide);
     }
 
     function end() {
@@ -169,6 +194,9 @@ let answerObject = {
     let y = 0;
     let score = 0;
     let fråga = 1;
+    let currentSlide = 0;
+    const doneQuestion = [];
+
 
     const questions = [
         {
@@ -271,10 +299,7 @@ let answerObject = {
             question: "Det finns en 18 % chans att du vinner.",
             chanceWin: 0.18
         },
-        {
-            question: "",
-            chanceWin: 0
-        }
+       
     ];
 
 
@@ -282,7 +307,6 @@ let answerObject = {
 
 
     const slides = document.querySelectorAll(".slide");
-    let currentSlide = 0;
 
     showSlide(currentSlide);
 

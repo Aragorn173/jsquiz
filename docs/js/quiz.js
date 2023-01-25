@@ -52,7 +52,7 @@ let answerObject = {
             }
         );
         quizContainer.innerHTML = output.join('');
-        randomSlide();
+        
         showfråga();
         calcWin();
         calcLoss();
@@ -84,11 +84,14 @@ let answerObject = {
     function showSlide(n) {
         slides[n].classList.remove('active-slide');
 
-        randomSlide();
+        if (fråga < 26) {
+            randomSlide();
+        }
         //currentSlide = Math.floor(Math.random() * questions.length);
         if (fråga < 26) {
             slides[currentSlide].classList.add('active-slide');
         }
+        
         calcWin();
         calcLoss();
         kanvinna();
@@ -114,9 +117,12 @@ let answerObject = {
     function randomSlide() {
         currentSlide = Math.floor(Math.random() * questions.length);
 
-        if (doneQuestion.includes(currentSlide) == true) {
+        while (doneQuestion.includes(currentSlide) == true) {
            console.log("true");
-        } else {
+           currentSlide = Math.floor(Math.random() * questions.length);
+        } 
+
+        if (doneQuestion.includes(currentSlide) == false){
             console.log("false");
             doneQuestion.push(currentSlide);
         }

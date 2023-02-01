@@ -111,19 +111,16 @@ let answerObject = {
         } else {
             answerObject.correctanswers.push(2);
         }
-        console.log(answerObject);
     }
 
     function randomSlide() {
         currentSlide = Math.floor(Math.random() * questions.length);
 
         while (doneQuestion.includes(currentSlide) == true) {
-           console.log("true");
            currentSlide = Math.floor(Math.random() * questions.length);
         } 
 
         if (doneQuestion.includes(currentSlide) == false){
-            console.log("false");
             doneQuestion.push(currentSlide);
         }
 
